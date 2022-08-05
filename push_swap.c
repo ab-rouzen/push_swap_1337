@@ -15,37 +15,55 @@ int	sort(t_list **stack_a, t_list **stack_b)
 
 	while (1)
 	{
-	node = *stack_a;
-	min = node->nbr;
-	pos = -1;
-	i = 0;
-	while (node)
-	{
-		if (min > node->nbr)
+		node = *stack_a;
+		min = node->nbr;
+		pos = -1;
+		i = 0;
+		while (node)
 		{
-			min = node->nbr;
-			pos = i;
+			if (min > node->nbr)
+			{
+				min = node->nbr;
+				pos = i;
+			}
+			node = node->next;
+			i++;
 		}
-		node = node->next;
-		i++;
-	}
-	if (pos == -1 && ft_lstsize(*stack_a) == 1)
-		return 0;
-	for(i = 0; i < pos; i++)
-		ra(stack_a);
-	pb(stack_b, stack_a);
+		if (pos == -1 && ft_lstsize(*stack_a) == 1)
+			return 0;
+		for(i = 0; i < pos; i++)
+			ra(stack_a);
+		pb(stack_b, stack_a);
 	}
 	return 0;
+}
+
+char ***parse_input(char **argv, int	argc)
+{
+	char	***list;
+	int		i;
+
+	i = 0;
+	list = malloc(sizeof(char***) * argc);
+	while(argv[i])
+	{
+		list[i] = ft_split(argv[i], ' ');
+		i++;
+	}
+	return (list);
 }
 
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
-	
-	check_int(&argv[1]);
+	char 	***args;
+
+	args = parse_input(&argv[1], argc);
+	check_int(args);
+	stack_a = new_list(args);
+	check_dupl(stack_a);
 	stack_b = NULL;
-	stack_a = new_list(&argv[1]);
 	//ft_printf("size stack_a is : %d\n", ft_lstsize(stack_a));
 	//pb(&stack_b, &stack_a);
 	//pa(&stack_a, &stack_b);
@@ -53,8 +71,8 @@ int	main(int argc, char **argv)
 	sort(&stack_a, &stack_b);
 	while (stack_b)
 		pa(&stack_a, &stack_b);
-	//ft_printf("stack_a:\n");
-	while (stack_a)
+	// ft_printf("stack_a:\n");
+	// while (stack_a)
 	// {
 	// 	ft_printf("%d\n", stack_a->nbr);
 	// 	stack_a = stack_a->next;

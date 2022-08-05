@@ -1,14 +1,23 @@
 #include "push_swap.h"
 
-t_list	*new_list(char **argv)
+t_list	*new_list(char ***args)
 {
 	int	i;
+	int	j;
 	t_list *list;
 
+	j = 0;
 	i = 0;
 	list = NULL;
-	while (argv[i])
-		ft_lstadd_back(&list, ft_lstnew(ft_atoi(argv[i++])));
+	while (args[i])
+	{
+		j = 0;
+		while(args[i][j])
+		{
+			ft_lstadd_back(&list, ft_lstnew(ft_atoi(args[i][j++])));
+		}
+		i++;
+	}
 	return (list);
 }
 

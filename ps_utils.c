@@ -1,40 +1,49 @@
 #include "push_swap.h"
 
-void	check_int(char **nbr)
+void	check_int(char ***nbr)
 {
 	int	i;
 
 	i = 0;
 	while (nbr[i])
-		check_nbr(nbr[i++]);
-	check_dupl(nbr);
+		check_fragment(nbr[i++]);
 }
 
-void	check_dupl(char **nbr)
+void	check_dupl(t_list *stack_a)
 {
-	int	i;
-	int	j;
+	t_list	*step_x;
+	t_list	*step_y;
 
-	i = 0;
-	j = 0;
-	while (nbr[i])
+	step_x = step_y = stack_a;
+	while (step_x)
 	{
-		while(nbr[j])
+		while(step_y)
 		{
-			if (ft_atoi(nbr[i]) == ft_atoi(nbr[j]) && i != j)
-				err_exit(0);
-			j++;
+			if (step_x->nbr == step_y->nbr && step_x != step_y)
+				err_exit(8);
+			step_y = step_y->next;
 		}
-		i++;
-		j = 0;
+		step_x = step_x->next;
+		step_y = stack_a;
 	}
 }
 
-void	check_nbr(char	*str)
+void	check_fragment(char	**str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		check_nbr(str[i++]);
+	}
+}
+
+void	check_nbr(char *str)
 {
 	while (*str)
 	{
-		if (*str < '0' || *str > '9')
+		if ((*str < '0' || *str > '9'))
 			err_exit(0);
 		str++;
 	}
@@ -78,4 +87,105 @@ int	ft_atoi(const char *str)
 	if (sign == -1)
 		return (-holder);
 	return (holder);
+}
+
+static int	tabcount(const char *str, char c)
+{
+	int	i;
+	int	count;
+	int	j;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		while (str[i] == c)
+			i++;
+		j = i;
+		while (str[i] != c && str[i])
+			i++;
+		if (j != i)
+			count++;
+	}
+	return (count);
+}
+
+static char	**freeme(char **tab, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free (tab);
+	return (NULL);
+}
+
+static char	**allo_mem(char **blk, char *str, char c)
+{
+	char	*loc;
+	int		i;
+	int		m;
+
+	i = 0;
+	m = 0;
+	while (str[i])
+	{
+		while (str[i] == c)
+			i++;
+		loc = &str[i];
+		while (str[i] != c && str[i])
+			i++;
+		if ((&str[i] - loc) != 0)
+		{
+			blk[m] = malloc(sizeof(char) * (&str[i] - loc + 1));
+			if (!blk[m])
+				return (freeme(blk, m));
+			m++;
+		}
+	}
+	blk[m] = NULL;
+	return (blk);
+}
+
+static void	feelme(char *str, char c, char **tab)
+{
+	int		i;
+	int		m;
+	char	*loc;
+
+	i = 0;
+	m = 0;
+	while (str[i])
+	{
+		while (str[i] == c)
+			i++;
+		loc = &str[i];
+		while (str[i] != c && str[i])
+			i++;
+		if (&str[i] - loc != 0)
+			ft_strlcpy(tab[m], loc, &str[i] - loc + 1);
+		m++;
+	}
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**tab;
+	char	*ns;
+
+	ns = (char *)s;
+	if (!ns)
+		return (NULL);
+	tab = malloc(sizeof(char **) * tabcount(ns, c) + 1);
+	if (!tab)
+		return (NULL);
+	allo_mem(tab, ns, c);
+	if (!tab)
+		return (NULL);
+	feelme(ns, c, tab);
+	return (tab);
 }

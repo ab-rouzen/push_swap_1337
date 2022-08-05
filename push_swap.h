@@ -1,18 +1,20 @@
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 #include <stdlib.h>
-#include "./ft_printf/ft_printf.h"
+#include "./ft_libft/libft.h"
 typedef struct 		s_list 
 {
 	int				nbr;
 	struct s_list	*next;
 }					t_list;
 
-int	ft_atoi(const char *str);
-void	check_int(char **nbr);
-t_list	*new_list(char **argv);
+int		ft_printf(const char *str, ...);
+int		ft_atoi(const char *str);
+void	check_int(char ***nbr);
+t_list	*new_list(char ***argv);
 void	check_nbr(char	*str);
-void	check_dupl(char **nbr);
+void	check_dupl(t_list *stack_a);
+void	check_fragment(char	**str);
 void	err_exit(int exit_code);
 void	ft_lstadd_front(t_list **alst, t_list *new);
 void	ft_lstadd_back(t_list **alst, t_list *new);
@@ -30,7 +32,8 @@ void	rra(t_list **stack_a);
 void    rrr(t_list **stack_a, t_list **stack_b);
 void    ss(t_list **stack_a, t_list **stack_b);
 t_list	**get_a_node(t_list **stack_a);
-int	sort(t_list **stack_a, t_list **stack_b);
+int		sort(t_list **stack_a, t_list **stack_b);
+char	**ft_split(char const *s, char c);
 
 #endif
 

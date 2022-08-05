@@ -1,42 +1,48 @@
 #include "push_swap.h"
 
-void	check_int(char **nbr)
+void	check_int(char ***nbr)
 {
 	int	i;
 
 	i = 0;
 	while (nbr[i])
 		check_nbr(nbr[i++]);
-	check_dupl(nbr);
+	//check_dupl(nbr);
 }
 
-void	check_dupl(char **nbr)
+void	check_dupl(char ***nbr)
 {
 	int	i;
 	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
-	while (nbr[i])
+	k = 0;
+	while (nbr[k])
 	{
-		while(nbr[j])
+		while (nbr[k][i])
 		{
-			if (ft_atoi(nbr[i]) == ft_atoi(nbr[j]) && i != j)
-				err_exit(0);
-			j++;
+			while(nbr[k][j])
+			{
+				if (ft_atoi(nbr[k][i]) == ft_atoi(nbr[k][j]) && i != j)
+					err_exit(0);
+				j++;
+			}
+			i++;
+			j = 0;
 		}
-		i++;
-		j = 0;
-	}
+		k++;
+	} 
 }
 
 void	check_nbr(char	*str)
 {
 	while (*str)
 	{
-		if (*str < '0' || *str > '9')
+		if ((*str < '0' || *str > '9') && *str != ' ')
 			err_exit(0);
-		str++;
+		str++
 	}
 }
 
@@ -70,7 +76,7 @@ int	ft_atoi(const char *str)
 	sign = 1;
 	if (i < 0)
 	{
-		sign = -1;
+		sign = -1; 
 		i *= -1;
 	}
 	while (str[i] >= 48 && str[i] <= 57)
