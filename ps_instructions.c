@@ -58,7 +58,7 @@ void	rra(t_list **stack_a)
 
 	if (ft_lstsize(*stack_a) > 1)
 	{
-		temp = ft_lstlast(*stack_a);
+		temp = ft_lstblast(*stack_a);
 		ft_lstadd_front(stack_a, temp->next);
 		temp->next = NULL;
 	}

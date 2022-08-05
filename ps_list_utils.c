@@ -21,6 +21,35 @@ t_list	*new_list(char ***args)
 	return (list);
 }
 
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list	*crawler;
+
+	crawler = lst;
+	while (crawler)
+	{
+		lst = crawler;
+		crawler = crawler->next;
+	}
+	return (lst);
+}
+
+t_list	*ft_lstblast(t_list *lst)
+{
+	t_list	*crawler;
+
+
+	crawler = lst;
+	if (!crawler)
+		return(crawler);
+	while (crawler->next)
+	{
+		lst = crawler;
+		crawler = crawler->next;
+	}
+	return (lst);
+}
+
 void	ft_lstadd_front(t_list **alst, t_list *new)
 {
 	new->next = *alst;
@@ -70,17 +99,18 @@ int	ft_lstsize(t_list *lst)
 	return (i);
 }
 
-t_list	*ft_lstlast(t_list *lst)
+int	get_pos(t_list *lst, t_list *node)
 {
-	t_list *prev;
+	int	i;
 
-	prev = lst;
-	if (lst)
-	while (lst->next)
+	i = 1;
+	while (lst)
 	{
-		prev = lst;
+		if (lst == node)
+			return (i);
+		i++;
 		lst = lst->next;
 	}
-	return (prev);
+	return (0);
 }
 

@@ -6,7 +6,10 @@ void	check_int(char ***nbr)
 
 	i = 0;
 	while (nbr[i])
-		check_fragment(nbr[i++]);
+	{
+		check_fragment(nbr[i]);
+		i++;
+	}
 }
 
 void	check_dupl(t_list *stack_a)
@@ -35,7 +38,8 @@ void	check_fragment(char	**str)
 	i = 0;
 	while (str[i])
 	{
-		check_nbr(str[i++]);
+		check_nbr(str[i]);
+		i++;
 	}
 }
 

@@ -12,7 +12,7 @@ BONU_SRCS =
 
 BONU_OBJS = $(BONU_SRCS:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 PATH_LIBFT = ./libft/
 NAME_LIBFT = libft.a
 
