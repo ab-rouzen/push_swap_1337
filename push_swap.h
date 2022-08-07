@@ -37,4 +37,11 @@ int		sort(t_list **stack_a, t_list **stack_b);
 char	**ft_split(char const *s, char c);
 int		get_pos(t_list *lst, t_list *node);
 
+
+void	sort_med_a(t_list **stack_a, t_list **stack_b);
+void	sort_med_b(t_list **stack_b, t_list **stack_a);
+int		is_sorted(t_list *stack_a);
+void	med_sort_b(t_list **stack_b, t_list **stack_a, int med, int s_back);
+
+
 #endif

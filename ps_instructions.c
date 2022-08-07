@@ -61,6 +61,20 @@ void	rra(t_list **stack_a)
 		temp = ft_lstblast(*stack_a);
 		ft_lstadd_front(stack_a, temp->next);
 		temp->next = NULL;
+		ft_printf("rra\n");
+	}
+}
+
+void	rrb(t_list **stack_b)
+{
+	t_list *temp;
+
+	if (ft_lstsize(*stack_b) > 1)
+	{
+		temp = ft_lstblast(*stack_b);
+		ft_lstadd_front(stack_b, temp->next);
+		temp->next = NULL;
+		ft_printf("rrb\n");
 	}
 }
 
