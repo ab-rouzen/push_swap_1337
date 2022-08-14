@@ -34,27 +34,43 @@ int	part_ar(int *ar,int left, int right, int idx)
 	return(pos);
 }
 
-int	get_med(int	*ar, int left, int right, int mid)
+int	f_med(int *ar, int left, int right, int mid)
 {
-	int	
-	kth;
+	int	kth;
 
 	kth = part_ar(ar, left, right, left);
 	if (kth + 1 < mid)
-		return(get_med(ar, kth + 1, right, mid));
+		return(f_med(ar, kth + 1, right, mid));
 	else if (kth + 1 > mid)
-		return (get_med(ar, left, kth - 1, mid));
+		return (f_med(ar, left, kth - 1, mid));
 	return(ar[kth]);
+}
+
+int	get_med(t_list *stack_a, int left,int s_back)
+{
+	int	right;
+	int	mid;
+	int	*ar;
+	int	med;
+
+	mid = (ft_lstsize(stack_a) - s_back - 1) / 2 + 1;
+	ar = to_ar(stack_a, s_back);
+	right = ft_lstsize(stack_a) - 1 - s_back;
+	med = f_med(ar, left, right, mid);
+	ft_printf("med is %d\n", med);
+	return(med);
 }
 
 int	*to_ar(t_list *stack, int size)
 {
 	int	*ar;
 	int	i;
+	int	s_stack;
 
-	ar = malloc(sizeof(int) * (ft_lstsize(stack) - size));
+	s_stack = ft_lstsize(stack);
+	ar = malloc(sizeof(int) * s_stack - size);
 	i = 0;
-	while(stack && i < (ft_lstsize(stack) - size))
+	while(stack && i <  s_stack - size)
 	{
 		ar[i++] = stack->nbr;
 		stack = stack->next;
@@ -93,6 +109,7 @@ void	sort_med_a(t_list **stack_a, t_list **stack_b)
 	}
 }
 
+int	s_size;
 void	sort_med_b(t_list **stack_b, t_list **stack_a)
 {
 	t_list	*node;
@@ -318,15 +335,15 @@ void	med_sort_a(t_list **stack_a, t_list **stack_b, int med, int s_back)
 	size = ft_lstsize(*stack_a) - s_back;
 	node = *stack_a;
 	i = 0;
-	while (i < s_back)
+	while (i < 2 && s_back)
 	{
 		ra(stack_a);
 		i++;
 	}
 	i = 0;
-	while(i < size && size != 2)
+	while(node && i < size && size > 2)
 	{
-		if(node->nbr < med)
+		if(node->nbr > med)
 		{
 			node = node->next;
 			pb(stack_b, stack_a);
@@ -338,15 +355,26 @@ void	med_sort_a(t_list **stack_a, t_list **stack_b, int med, int s_back)
 		}
 		i++;
 	}
-	if (ft_lstsize(*stack_a) != 2)
+	if (ft_lstsize(*stack_a) - s_back> 2)
 	{
-		med = get_med(to_ar(*stack_a, s_back),0,ft_lstsize(*stack_a) - 1 - s_back, (ft_lstsize(*stack_a) - s_back - 1) / 2 + 1);
+		med = get_med(*stack_a, 0, s_back);
 		med_sort_a(stack_a, stack_b, med, s_back);
 	}
-	if ((*stack_a)->nbr > (*stack_a)->next->nbr)
+	if (ft_lstsize(*stack_a) == 2)
+		if ((*stack_a)->nbr > (*stack_a)->next->nbr)
+			ra(stack_a);
+	if (size <= 1)
 		ra(stack_a);
-	med = get_med(to_ar(*stack_b, 0),0,ft_lstsize(*stack_b) - 1, (ft_lstsize(*stack_b) - 1) / 2 + 1);
-	med_sort_b(stack_b, stack_a, med, s_back + 2);
+	if (size == 2)
+	{
+		ra(stack_a);
+		ra(stack_a);
+	}
+	if (s_size != ft_lstsize(*stack_a) && size != 1 && s_back != s_size - 1)
+	{
+		med = get_med(*stack_b, 0, s_back);
+		med_sort_b(stack_b, stack_a, med, s_back + 2);
+	}
 }
 
 void	med_sort_b(t_list **stack_b, t_list **stack_a, int med, int s_back)
@@ -360,7 +388,7 @@ void	med_sort_b(t_list **stack_b, t_list **stack_a, int med, int s_back)
 	i = 0;
 	while(i < size && size != 2)
 	{
-		if(node->nbr < med)
+		if(node->nbr > med)
 		{
 			node = node->next;
 			pa(stack_a, stack_b);
@@ -372,36 +400,148 @@ void	med_sort_b(t_list **stack_b, t_list **stack_a, int med, int s_back)
 		}
 		i++;
 	}
-	if (ft_lstsize(*stack_b) != 2)
+	if (ft_lstsize(*stack_b) > 2)
 	{
-		med = get_med(to_ar(*stack_b, 0),0,ft_lstsize(*stack_b) - 1, (ft_lstsize(*stack_b) - 1) / 2 + 1);
+		med = get_med(*stack_b, 0, 0);
 		med_sort_b(stack_b, stack_a, med, s_back);
 	}
-	if ((*stack_b)->nbr > (*stack_b)->next->nbr)
-		rb(stack_b);
+	if (ft_lstsize(*stack_b) == 2)
+	{
+		if ((*stack_b)->nbr < (*stack_b)->next->nbr)
+			rb(stack_b);
 	pa(stack_a, stack_b);
 	pa(stack_a, stack_b);
-	med = get_med(to_ar(*stack_a, s_back),0,ft_lstsize(*stack_a) - 1 - s_back, (ft_lstsize(*stack_a) - 1 - s_back) / 2 + 1);
-	med_sort_a(stack_a, stack_b, med, s_back + 2);}
+	med = get_med(*stack_a, 0, s_back);
+	med_sort_a(stack_a, stack_b, med, s_back + 2);
+	}
+} 
 
+void	init_part(t_list **stack_a, t_list **stack_b, int	*tracker)
+{
+	int		med;
+	t_list	*node;
+	int		i;
+	t_list	*lst_el;
+	t_list	*tmp;
+
+	lst_el = ft_lstlast(*stack_a);
+	node = *stack_a;
+	i = 0;
+	med = get_med(*stack_a, 0, 0);
+	while(node)
+	{
+		tmp = node->next;
+		if (node->nbr > med)
+		{
+			pb(stack_b, stack_a);
+			i++;
+		}
+		else
+			ra(stack_a);
+		if(node == lst_el)
+			node = NULL;
+		else
+			node = tmp;
+	}
+	add_tracker(tracker, i);
+	if (ft_lstsize(*stack_a) > 3)
+		init_part(stack_a, stack_b, tracker);
+}
+
+void	add_tracker(int	*tracker, int i)
+{
+	int	j;
+
+	j = 0;
+	while(tracker[j])
+		j++;
+	tracker[j] = i;
+	//tracker[j++] = 0;
+}
+
+int	get_borne(int	*tracker)
+{
+	int	i;
+
+	i = 0;
+	while(tracker[i])
+		i++;
+	return(--i);
+}
+
+void	op_a(t_list **stack_a, t_list **stack_b, int *tracker)
+{
+	int		med;
+	t_list	*node;
+	int		i;
+	t_list	*tmp;
+
+	node = *stack_a;
+	i = 0;
+	med = get_med(*stack_a, 0, ge);
+	while(node)
+	{
+		if (node->nbr > med)
+		{
+			tmp  = node;
+			pb(stack_b, stack_a);
+			i++;
+		}
+		else
+		{
+			tmp = node;
+			ra(stack_a);
+		}
+		node = node->next;
+	}
+	add_tracker(tracker, i);
+	//op_b(stack_b, stack_a, tracker);
+}
+
+void	op_b(t_list **stack_b, t_list **stack_a, int *tracker)
+{
+	t_list	*node;
+	int		size;
+	int		med;
+	int		a;
+	int		b;
+	t_list	*tmp;
+
+	size = get_borne(tracker);
+	a = b = 0;
+	med = get_med(stack_b, 0, size);
+	while(a + b < size)
+	{
+		tmp = node->next;
+		if (node->nbr > med)
+		{
+			pa(stack_a, stack_b);
+			a++;
+		}
+		else
+		{
+			ra(stack_b);
+			b++;
+		}
+		node = tmp;
+	}
+	add_tracker(tracker, i);
+}
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
 	char 	***args;
-	int		*ar_a;
+	int		tracker[100] = {};
 	int	med;
-	int	mid;
 
 	args = parse_input(&argv[1], argc);
 	stack_a = new_list(args);
-	ar_a = to_ar(stack_a, 0);
-	mid = (argc - 2) / 2 + 1;
-	med = get_med(ar_a, 0, argc - 2, mid);
+	med = get_med(stack_a, 0, 0);
+	s_size = ft_lstsize(stack_a);
 	check_int(args);
 	check_dupl(stack_a);
 	stack_b = NULL;
-	ft_printf("med is %d\n", med);
 	//ft_printf("size stack_a is : %d\n", ft_lstsize(stack_a));
 	//pb(&stack_b, &stack_a);
 	//pa(&stack_a, &stack_b);
@@ -409,9 +549,11 @@ int	main(int argc, char **argv)
 	//sort_med_a(&stack_a, &stack_b);
 	// while (stack_b)
 	// 	pa(&stack_a, &stack_b);
-	med_sort_a(&stack_a, &stack_b, med, 0);
+	//med_sort_a(&stack_a, &stack_b, med, 0);
 	// med = get_med(to_ar(stack_b),0,ft_lstsize(stack_b) - 1, (ft_lstsize(stack_b) - 1) / 2 + 1);
 	// med_sort_b(&stack_b, &stack_a, med);
+	init_part(&stack_a, &stack_b, tracker);
+	//op_a(&stack_a, &stack_b, tracker);
 	ft_printf("stack_a: argc %d\n", argc);
 	while (stack_a)
 	{

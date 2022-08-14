@@ -9,6 +9,7 @@ gcc -Wall -Wextra -Werror -g -o ps_list_utils.o -c ps_list_utils.c
 echo Checking files...
 gcc -Wall -Wextra -Werror -g -o push_swap ./push_swap.o ./ps_instructions.o ./ps_utils.o ./ps_list_utils.o ./ft_printf/libftprintf.a ./ft_libft/libft.a
 #make clean
+ 
 echo Everything is up to go!
 make: Leaving directory `/Users/arouzen/push_swap'
  
