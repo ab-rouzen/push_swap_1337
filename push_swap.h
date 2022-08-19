@@ -37,19 +37,12 @@ int		sort(t_list **stack_a, t_list **stack_b);
 char	**ft_split(char const *s, char c);
 int		get_pos(t_list *lst, t_list *node);
 
-void	add_tracker(int	**tracker, int a, int b, int s);
 void	op_a(t_list **stack_a, t_list **stack_b, int w_len);
 void	op_b(t_list **stack_b, t_list **stack_a, int w_len);
 void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len);
 void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len);
 
-
-void	init_part(t_list **stack_a, t_list **stack_b, int	*tracker);
-
-void	sort_med_a(t_list **stack_a, t_list **stack_b);
-void	sort_med_b(t_list **stack_b, t_list **stack_a);
 int		is_sorted(t_list *stack_a);
-void	med_sort_b(t_list **stack_b, t_list **stack_a, int med, int s_back);
 int		*to_ar(t_list *stack, int size);
 
 
