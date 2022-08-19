@@ -1,3 +1,4 @@
 *.o
 ./push_swap_visualizer
 .vscode
+push_swap

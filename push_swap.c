@@ -1,5 +1,5 @@
 #include "push_swap.h"
-
+int s_size;
 void	err_exit(int exit_code)
 {
 	ft_printf("Error!\n");
@@ -53,11 +53,11 @@ int	get_med(t_list *stack_a, int left,int s_back)
 	int	*ar;
 	int	med;
 
-	mid = (ft_lstsize(stack_a) - s_back - 1) / 2 + 1;
+	mid = s_back / 2 + 1;
 	ar = to_ar(stack_a, s_back);
-	right = ft_lstsize(stack_a) - 1 - s_back;
+	right = s_back - 1;
 	med = f_med(ar, left, right, mid);
-	ft_printf("med is %d\n", med);
+	//ft_printf("med is %d\n", med);
 	return(med);
 }
 
@@ -68,9 +68,9 @@ int	*to_ar(t_list *stack, int size)
 	int	s_stack;
 
 	s_stack = ft_lstsize(stack);
-	ar = malloc(sizeof(int) * s_stack - size);
+	ar = malloc(sizeof(int) * size);
 	i = 0;
-	while(stack && i <  s_stack - size)
+	while(stack && i <  size)
 	{
 		ar[i++] = stack->nbr;
 		stack = stack->next;
@@ -109,7 +109,6 @@ void	sort_med_a(t_list **stack_a, t_list **stack_b)
 	}
 }
 
-int	s_size;
 void	sort_med_b(t_list **stack_b, t_list **stack_a)
 {
 	t_list	*node;
@@ -431,7 +430,7 @@ void	init_part(t_list **stack_a, t_list **stack_b, int	*tracker)
 	while(node)
 	{
 		tmp = node->next;
-		if (node->nbr > med)
+		if (node->nbr >= med)
 		{
 			pb(stack_b, stack_a);
 			i++;
@@ -443,96 +442,188 @@ void	init_part(t_list **stack_a, t_list **stack_b, int	*tracker)
 		else
 			node = tmp;
 	}
-	add_tracker(tracker, i);
+	add_tracker(&tracker, i, i, i);
 	if (ft_lstsize(*stack_a) > 3)
 		init_part(stack_a, stack_b, tracker);
 }
 
-void	add_tracker(int	*tracker, int i)
+void	add_tracker(int	**tracker, int a, int b, int s)
 {
 	int	j;
 
 	j = 0;
-	while(tracker[j])
+	while(tracker[0][j])
 		j++;
-	tracker[j] = i;
+	tracker[j] = &a;
+	j = 0;
+	while(tracker[1][j])
+		j++;
+	tracker[1][j] = b;
+	tracker[2][0] = s;
 	//tracker[j++] = 0;
 }
+ /*
+Pseudo code for algorithm:
 
-int	get_borne(int	*tracker)
+#for stack_a
+
+1 -> find median
+2 -> split first stack into two parts, input varible will determine lenghth to traverse,ra when > median and pb when <
+3 -> Condition:repeat recursively by calling sort_a until 2 elements remain.
+4 -> Sort the 2 elements
+5 -> If pb occurs, call sort_b to retrieve the last chunk, sort_b will know how much to send back
+	with the sort_a sending it how many elements it pushed to b.
+6 -> call function to rra all rb'ed elements.
+		-> function later calls sort_a
+
+#for stack_b
+
+1 -> find median of the last chunk sent using input param.
+2 -> split chunk into two, pa when > median, rb otherwise.
+3 -> if pa occurs, call sort_a with param how many pb made.
+4 -> call function to rrb all rb'ed elements.
+		-> function then calls sort_b
+ 
+ */
+
+int	get_borne(int **tracker, char param)
 {
 	int	i;
 
 	i = 0;
-	while(tracker[i])
-		i++;
-	return(--i);
+	if (param == 'a')
+	{
+		while(tracker[0][i])
+			i++;
+		return(tracker[0][--i]);
+	}
+	else if (param == 'b')
+	{
+		while (tracker[1][i])
+			i++;
+		return(tracker[1][--i]);
+	}
+	return(tracker[2][0]);
 }
 
-void	op_a(t_list **stack_a, t_list **stack_b, int *tracker)
+void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 {
 	int		med;
 	t_list	*node;
-	int		i;
+	int		a;
+	int		b;
 	t_list	*tmp;
 
 	node = *stack_a;
-	i = 0;
-	med = get_med(*stack_a, 0, ge);
-	while(node)
+	a = b = 0;
+	med = get_med(*stack_a, 0, w_len);
+	/*
+	if (get_borne(tracker, 'a')  == 2)
 	{
-		if (node->nbr > med)
+		int	i = get_borne(tracker,'a');
+		while(i >= 0)
 		{
-			tmp  = node;
-			pb(stack_b, stack_a);
+			rra(stack_a);
 			i++;
 		}
-		else
+		if((*stack_a)->nbr > (*stack_a)->next->nbr)
+			sa(stack_a);
+	}*/
+	if (w_len > 2){
+		while(a + b < w_len)
 		{
-			tmp = node;
-			ra(stack_a);
+			tmp = node->next;
+			if (node->nbr < med)
+			{
+				pb(stack_b, stack_a);
+				b++;
+			}
+			else
+			{
+				ra(stack_a);
+				a++;
+			}
+			node = tmp;
 		}
-		node = node->next;
+		if(a > 0)
+			rewind_ra(stack_a, stack_b, a);
 	}
-	add_tracker(tracker, i);
+	node = *stack_a;
+	if (w_len == 2)
+		if(node->nbr > node->next->nbr)
+			sa(stack_a);
+	if(b > 0)
+		op_b(stack_b, stack_a, b);
 	//op_b(stack_b, stack_a, tracker);
 }
 
-void	op_b(t_list **stack_b, t_list **stack_a, int *tracker)
+void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len)
+{
+	int	i;
+
+	i = 0;
+	while(i < w_len)
+	{
+		rra(stack_a);
+		i++;
+	}
+	op_a(stack_a, stack_b, w_len);
+}
+
+void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len)
+{
+	int	i;
+
+	i = 0;
+	while(i < w_len)
+	{
+		rrb(stack_b);
+		i++;
+	}
+	op_b(stack_b, stack_a, w_len);
+}
+
+void	op_b(t_list **stack_b, t_list **stack_a, int w_len)
 {
 	t_list	*node;
-	int		size;
 	int		med;
 	int		a;
 	int		b;
 	t_list	*tmp;
 
-	size = get_borne(tracker);
 	a = b = 0;
-	med = get_med(stack_b, 0, size);
-	while(a + b < size)
-	{
-		tmp = node->next;
-		if (node->nbr > med)
+	med = get_med(*stack_b, 0, w_len);
+	node = *stack_b;
+	//if (w_len > 2){
+		while(a + b < w_len)
 		{
-			pa(stack_a, stack_b);
-			a++;
+			tmp = node->next;
+			if (node->nbr >= med)
+			{
+				pa(stack_a, stack_b);
+				a++;
+			}
+			else
+			{
+				rb(stack_b);
+				b++;
+			}
+			node = tmp;
 		}
-		else
-		{
-			ra(stack_b);
-			b++;
-		}
-		node = tmp;
-	}
-	add_tracker(tracker, i);
+	if(a > 0)
+		op_a(stack_a, stack_b, a);
+	if (b > 0)
+		rewind_rb(stack_b, stack_a, b);
+	//}
+
 }
+
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
 	char 	***args;
-	int		tracker[100] = {};
+	//int		tracker[3][10] = {};
 	int	med;
 
 	args = parse_input(&argv[1], argc);
@@ -552,21 +643,23 @@ int	main(int argc, char **argv)
 	//med_sort_a(&stack_a, &stack_b, med, 0);
 	// med = get_med(to_ar(stack_b),0,ft_lstsize(stack_b) - 1, (ft_lstsize(stack_b) - 1) / 2 + 1);
 	// med_sort_b(&stack_b, &stack_a, med);
-	init_part(&stack_a, &stack_b, tracker);
-	//op_a(&stack_a, &stack_b, tracker);
+	//init_part(&stack_a, &stack_b, tracker);
+	//get_med(stack_a, 0, 5);
+	op_a(&stack_a, &stack_b, ft_lstsize(stack_a));
+	/*
 	ft_printf("stack_a: argc %d\n", argc);
 	while (stack_a)
 	{
 		ft_printf("%d\n", stack_a->nbr);
 		stack_a = stack_a->next;
-	}
-	
+	}*/
+	/*
 	ft_printf("stack_b:\n");
 	while (stack_b)
 	{
 		ft_printf("%d\n", stack_b->nbr);
 		stack_b = stack_b->next;
 	}
-	
+	*/
 	return (0);
 }
