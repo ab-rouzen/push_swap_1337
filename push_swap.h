@@ -1,7 +1,8 @@
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 #include <stdlib.h>
-#include "./ft_libft/libft.h"
+#include <unistd.h>
+//#include "./libft/libft.h"
 typedef struct 		s_list 
 {
 	int				nbr;
@@ -44,6 +45,8 @@ void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len);
 
 int		is_sorted(t_list *stack_a);
 int		*to_ar(t_list *stack, int size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
 
 
 #endif

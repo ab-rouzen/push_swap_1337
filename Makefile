@@ -4,24 +4,20 @@ NAME = push_swap
 NAME_B = so_long_bonus
 INCL = ./push_swap.h
 INCL_B = ./d_so_long_bonus/so_long_bonus.h
-MAND_SRCS = ./push_swap.c ./ps_instructions.c ./ps_utils.c ./ps_list_utils.c
-
+MAND_SRCS = ./push_swap.c ./ps_instructions.c ./ps_utils.c ./ps_list_utils.c ./ft_strlcpy.c
 MAND_OBJS = $(MAND_SRCS:.c=.o)
-LIBS = ./ft_printf/libftprintf.a ./ft_libft/libft.a
+LIBS = ./printf/libftprintf.a
 BONU_SRCS = 
-
 BONU_OBJS = $(BONU_SRCS:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
-PATH_LIBFT = ./libft/
-NAME_LIBFT = libft.a
 
 all : BINS $(NAME)
 	@echo Everything is up to go!
 
 BINS :
-	@make -C ./ft_libft
-	@make -C ./ft_printf
+	#make -C ./libft
+	@make -C ./printf
 $(NAME) : $(MAND_OBJS) $(INCL) 
 	@echo Checking files...
 	$(CC) $(FLAGS) -o $(NAME) $(MAND_OBJS) $(LIBS)
@@ -41,8 +37,8 @@ $(NAME_B) : $(BONU_OBJS) $(INCL_B)
 clean :
 	@echo cleaning up...
 	rm -f $(MAND_OBJS) $(BONU_OBJS)
-	make clean -C ./ft_printf
-	make clean -C ./ft_libft
+	make clean -C ./printf
+	make clean -C ./libft
 fclean : clean
 	rm -f $(NAME)
 
