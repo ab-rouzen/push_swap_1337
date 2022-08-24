@@ -14,7 +14,7 @@ void	sb(t_list **stack_b)
 	}
 }
 
-void	rb(t_list **stack_b)
+int	rb(t_list **stack_b)
 {
 	t_list	*temp;
 
@@ -25,6 +25,7 @@ void	rb(t_list **stack_b)
 		ft_lstadd_back(stack_b, temp);
 		ft_printf("rb\n");
 	}
+	return 1;
 }
 
 void	rr(t_list **stack_a, t_list **stack_b)

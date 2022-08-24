@@ -1,14 +1,20 @@
 .PHONY: all bonus re clean fclean $(NAME) $(NAME_LIBFT)
 
 NAME = push_swap
-NAME_B = so_long_bonus
+NAME_B = checker
 INCL = ./push_swap.h
-INCL_B = ./d_so_long_bonus/so_long_bonus.h
-MAND_SRCS = ./push_swap.c ./ps_instructions.c ./ps_utils.c ./ps_list_utils.c ./ft_strlcpy.c
+INCL_B = ./bonus/checker.h
+BIN_DIR = ./bin/
+BIN_DIR_B = ./bin_B/
+MAND_SRCS = ./main.c ./ps_instructions_a.c ./ps_instructions_b.c \
+			./median_utils.c ./ps_parse_utils_atoi.c ./ps_parse_utils_split.c\
+			./ps_llist_utils.c ./ps_libft_utils.c ./ps_sort_a.c ./ps_sort_b.c \
+			./ps_parse_utils.c
+
 MAND_OBJS = $(MAND_SRCS:.c=.o)
 LIBS = ./printf/libftprintf.a
 BONU_SRCS = 
-BONU_OBJS = $(BONU_SRCS:.c=.o)
+BONU_OBJS = $(BIN_DIR)$(BONU_SRCS:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 
@@ -32,13 +38,12 @@ $(NAME_B) : $(BONU_OBJS) $(INCL_B)
 	$(CC) $(FLAGS) -o $(NAME_B) $(BONU_OBJS) $(LIBS)
 
 %.o : %.c
-	$(CC) $(FLAGS) -o $@ -c $<
+	$(CC) $(FLAGS) -o $(BIN_DIR)$@ -c $<
 
 clean :
 	@echo cleaning up...
-	rm -f $(MAND_OBJS) $(BONU_OBJS)
+	rm -rf $(BIN_DIR) $(BIN_DIR_B)
 	make clean -C ./printf
-	make clean -C ./libft
 fclean : clean
 	rm -f $(NAME)
 

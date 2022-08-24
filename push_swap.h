@@ -2,7 +2,7 @@
 #define PUSH_SWAP_H
 #include <stdlib.h>
 #include <unistd.h>
-//#include "./libft/libft.h"
+
 typedef struct 		s_list 
 {
 	int				nbr;
@@ -27,8 +27,8 @@ void	sa(t_list **stack_a);
 void	sb(t_list **stack_b);
 void	pa(t_list **stack_a, t_list **stack_b);
 void	pb(t_list **stack_b, t_list **stack_a);
-void	ra(t_list **stack_a);
-void	rb(t_list **stack_b);
+int		ra(t_list **stack_a);
+int		rb(t_list **stack_b);
 void	rrb(t_list **stack_b);
 void	rra(t_list **stack_a);
 void    rrr(t_list **stack_a, t_list **stack_b);
@@ -36,17 +36,15 @@ void    ss(t_list **stack_a, t_list **stack_b);
 t_list	**get_a_node(t_list **stack_a);
 int		sort(t_list **stack_a, t_list **stack_b);
 char	**ft_split(char const *s, char c);
-int		get_pos(t_list *lst, t_list *node);
-
 void	op_a(t_list **stack_a, t_list **stack_b, int w_len);
 void	op_b(t_list **stack_b, t_list **stack_a, int w_len);
 void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len);
 void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len);
-
-int		is_sorted(t_list *stack_a);
 int		*to_ar(t_list *stack, int size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-
-
+char ***parse_input(char **argv, int	argc);
+int	get_med(t_list *stack_a, int left,int s_back);
+void	check_int(char ***nbr);
+void	check_dupl(t_list *stack_a);
 
 #endif

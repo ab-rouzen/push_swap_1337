@@ -13,7 +13,7 @@ void	rra(t_list **stack_a)
 	}
 }
 
-void	ra(t_list **stack_a)
+int		ra(t_list **stack_a)
 {
 	t_list	*temp;
 
@@ -24,6 +24,7 @@ void	ra(t_list **stack_a)
 		ft_lstadd_back(stack_a, temp);
 		ft_printf("ra\n");
 	}
+	return (1);
 }
 
 void	sa(t_list **stack_a)
@@ -51,4 +52,10 @@ void	pa(t_list **stack_a, t_list **stack_b)
 		*stack_b = temp;
 		ft_printf("pa\n");
 	}
+}
+
+void	ss(t_list **stack_a, t_list **stack_b)
+{
+	sb(stack_b);
+	sa(stack_a);
 }
