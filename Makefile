@@ -2,32 +2,31 @@
 
 NAME = push_swap
 NAME_B = checker
-INCL = ./push_swap.h
+INCL = ./src/push_swap.h
 INCL_B = ./bonus/checker.h
-BIN_DIR = ./bin/
-BIN_DIR_B = ./bin_B/
-MAND_SRCS = ./main.c ./ps_instructions_a.c ./ps_instructions_b.c \
-			./median_utils.c ./ps_parse_utils_atoi.c ./ps_parse_utils_split.c\
-			./ps_llist_utils.c ./ps_libft_utils.c ./ps_sort_a.c ./ps_sort_b.c \
-			./ps_parse_utils.c
-
-MAND_OBJS = $(MAND_SRCS:.c=.o)
+SRC_DIR = ./src/
+SRC_DIR_B = ./src_B/
+BUILD_DIR = ./build/
+M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c \
+			median_utils.c ps_parse_utils_atoi.c ps_parse_utils_split.c\
+			ps_llist_utils.c ps_libft_utils.c ./ps_sort_a.c ps_sort_b.c \
+			ps_parse_utils.c
+M_OBJ_NAME = $(M_SRC_NAME:.c=.o)
+M_OBJ = $(addprefix $(BUILD_DIR),$(M_OBJ_NAME))
 LIBS = ./printf/libftprintf.a
-BONU_SRCS = 
-BONU_OBJS = $(BIN_DIR)$(BONU_SRCS:.c=.o)
+BONU_SRC = 
+BONU_OBJ = $(BONU_SRC:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror -g
 
-all : BINS $(NAME)
+all : LIB $(NAME)
 	@echo Everything is up to go!
 
-BINS :
-	#make -C ./libft
+LIB :
 	@make -C ./printf
-$(NAME) : $(MAND_OBJS) $(INCL) 
+$(NAME) : $(M_OBJ) $(INCL) 
 	@echo Checking files...
-	$(CC) $(FLAGS) -o $(NAME) $(MAND_OBJS) $(LIBS)
-	#make clean
+	$(CC) $(FLAGS) -o $(NAME) $(M_OBJ) $(LIBS)
 
 bonus : $(NAME_B)
 	@make -C ./libft
@@ -37,14 +36,16 @@ $(NAME_B) : $(BONU_OBJS) $(INCL_B)
 	@echo Checking files...
 	$(CC) $(FLAGS) -o $(NAME_B) $(BONU_OBJS) $(LIBS)
 
-%.o : %.c
-	$(CC) $(FLAGS) -o $(BIN_DIR)$@ -c $<
+$(BUILD_DIR)%.o : $(SRC_DIR)%.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(FLAGS) -o $@ -c $<
 
 clean :
 	@echo cleaning up...
-	rm -rf $(BIN_DIR) $(BIN_DIR_B)
+	rm $(M_OBJ)
+	rm -r $(BUILD_DIR)
 	make clean -C ./printf
 fclean : clean
-	rm -f $(NAME)
+	rm $(NAME)
 
 re : fclean all
