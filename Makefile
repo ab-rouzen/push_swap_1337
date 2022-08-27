@@ -5,6 +5,7 @@ NAME_B = checker
 INCL = ./src/push_swap.h
 INCL_B = ./bonus/checker.h
 SRC_DIR = ./src/
+PRINTF_DIR = ./src/printf
 SRC_DIR_B = ./src_B/
 BUILD_DIR = ./build/
 M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c \
@@ -13,7 +14,7 @@ M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c \
 			ps_parse_utils.c
 M_OBJ_NAME = $(M_SRC_NAME:.c=.o)
 M_OBJ = $(addprefix $(BUILD_DIR),$(M_OBJ_NAME))
-LIBS = ./printf/libftprintf.a
+LIBS = ./src/printf/libftprintf.a
 BONU_SRC = 
 BONU_OBJ = $(BONU_SRC:.c=.o)
 CC = gcc
@@ -23,14 +24,13 @@ all : LIB $(NAME)
 	@echo Everything is up to go!
 
 LIB :
-	@make -C ./printf
+	@make -C $(PRINTF_DIR)
 $(NAME) : $(M_OBJ) $(INCL) 
 	@echo Checking files...
 	$(CC) $(FLAGS) -o $(NAME) $(M_OBJ) $(LIBS)
 
 bonus : $(NAME_B)
-	@make -C ./libft
-	@make -C ./ft_printf
+	@make -C $(PRINTF_DIR)
 
 $(NAME_B) : $(BONU_OBJS) $(INCL_B)
 	@echo Checking files...
