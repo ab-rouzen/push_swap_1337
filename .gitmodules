@@ -1,0 +1,3 @@
+[submodule "src/get_next_line"]
+	path = src/get_next_line
+	url = git@github.com:ab-rouzen/arouzen_GNL.git

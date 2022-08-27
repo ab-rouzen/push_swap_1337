@@ -1,43 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arouzen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 21:04:11 by arouzen           #+#    #+#             */
-/*   Updated: 2021/11/26 23:51:54 by arouzen          ###   ########.fr       */
+/*   Created: 2021/11/12 17:32:27 by arouzen           #+#    #+#             */
+/*   Updated: 2021/12/17 11:26:21 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_putstr_fd(char *s, int fd)
 {
-	int		i;
-	char	*nstr;
-
-	nstr = (char *)str;
-	i = 0;
-	while (nstr[i] != '\0')
-		i++;
-	return (i);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	unsigned int	i;
-	unsigned int	j;
+	int	i;
 
 	i = 0;
-	j = 0;
-	while (src[i] && i < dstsize - 1 && dstsize)
-	{
-		dst[i] = src [i];
-		i++;
-	}
-	if (dstsize)
-		dst[i] = '\0';
-	return (ft_strlen((char *)src));
+	if (s)
+		while (s[i] != '\0')
+			ft_putchar_fd(s[i++], fd);
+	else
+		ft_putstr_fd("(null)", fd);
 }
-

@@ -53,9 +53,6 @@ t_list	*ft_lstblast(t_list *lst)
 void	ft_lstadd_front(t_list **alst, t_list *new)
 {
 	new->next = *alst;
-	if ((*alst))
-		(*alst)->prev = new;
-	new->prev = NULL;
 	*alst = new;
 }
 
@@ -75,7 +72,6 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 	else
 		prev->next = new;
 	new->next = NULL;
-	new->prev = prev;
 }
 
 t_list	*ft_lstnew(int nbr)
@@ -85,9 +81,8 @@ t_list	*ft_lstnew(int nbr)
 	new_node = malloc(sizeof(t_list));
 	if (!new_node)
 		return (NULL);
-	new_node->nbr = nbr;
-	new_node->next = NULL;
-	new_node->prev = NULL;
+	(*new_node).nbr = nbr;
+	(*new_node).next = NULL;
 	return (new_node);
 }
 
@@ -103,4 +98,3 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (i);
 }
-

@@ -1,4 +1,6 @@
-*.o
+./build
+./printf/*.o
+./printf/libftprintf.a
 ./push_swap_visualizer
 .vscode
 push_swap

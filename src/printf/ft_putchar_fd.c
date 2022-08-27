@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arouzen <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 21:04:11 by arouzen           #+#    #+#             */
-/*   Updated: 2021/11/26 23:51:54 by arouzen          ###   ########.fr       */
+/*   Created: 2021/11/12 17:31:18 by arouzen           #+#    #+#             */
+/*   Updated: 2021/12/29 20:17:25 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_putchar_fd(char c, int fd)
 {
-	int		i;
-	char	*nstr;
+	static int	i = 0;
+	int			hol;
 
-	nstr = (char *)str;
-	i = 0;
-	while (nstr[i] != '\0')
-		i++;
-	return (i);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	unsigned int	i;
-	unsigned int	j;
-
-	i = 0;
-	j = 0;
-	while (src[i] && i < dstsize - 1 && dstsize)
+	if (fd == 1)
 	{
-		dst[i] = src [i];
+		write(fd, &c, 1);
 		i++;
+		return (0);
 	}
-	if (dstsize)
-		dst[i] = '\0';
-	return (ft_strlen((char *)src));
+	return (hol = i, i = 0, hol);
 }
-

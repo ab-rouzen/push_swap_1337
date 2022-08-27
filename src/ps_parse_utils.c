@@ -10,6 +10,8 @@ char ***parse_input(char **argv, int	argc)
 	while(argv[i])
 	{
 		list[i] = ft_split(argv[i], ' ');
+		if(!(*list[i]))
+			err_exit(-1);
 		i++;
 	}
 	list[i] = NULL;
@@ -61,9 +63,11 @@ void	check_fragment(char	**str)
 
 void	check_nbr(char *str)
 {
+	if ((*str == '-' || *str == '+') && ft_strlen(str) != 1)
+		str++;
 	while (*str)
 	{
-		if ((*str < '0' || *str > '9'))
+		if (*str < '0' || *str > '9')
 			err_exit(0);
 		str++;
 	}

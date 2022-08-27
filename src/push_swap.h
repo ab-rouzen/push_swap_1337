@@ -2,11 +2,14 @@
 #define PUSH_SWAP_H
 #include <stdlib.h>
 #include <unistd.h>
+#define MAX_INT 2147483647
+#define MIN_INT -2147483648
 
 typedef struct 		s_list 
 {
 	int				nbr;
 	struct s_list	*next;
+	struct s_list	*prev;
 }					t_list;
 
 int		ft_printf(const char *str, ...);
@@ -38,13 +41,20 @@ int		sort(t_list **stack_a, t_list **stack_b);
 char	**ft_split(char const *s, char c);
 void	op_a(t_list **stack_a, t_list **stack_b, int w_len);
 void	op_b(t_list **stack_b, t_list **stack_a, int w_len);
-void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len);
-void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len);
+void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len, int chunk);
+void	rewind_rb(t_list **stack_b, t_list **stack_a, int w_len, int chunk);
 int		*to_ar(t_list *stack, int size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char ***parse_input(char **argv, int	argc);
-int	get_med(t_list *stack_a, int left,int s_back);
+int		get_med(t_list *stack_a, int left,int s_back);
 void	check_int(char ***nbr);
 void	check_dupl(t_list *stack_a);
+size_t	ft_strlen(const char *str);
+int		is_sorted_b(t_list *stack_b, int size);
+int		is_sorted_a(t_list *stack_a, int size);
+int		check_rest_len_a(t_list *stack_a, int med, int w_len);
+int		check_rest_len_b(t_list *stack_b, int med, int w_len);
+int		get_med_back(t_list *stack_a, int left,int s_back);
+int		*to_ar_back(t_list *stack, int size);
 
 #endif
