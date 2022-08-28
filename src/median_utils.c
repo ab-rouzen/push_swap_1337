@@ -40,7 +40,7 @@ int	f_med(int *ar, int left, int right, int mid)
 	return(ar[kth]);
 }
 
-int	get_med(t_list *stack_a, int left,int s_back)
+int	get_med(t_list *stack_a, int s_back)
 {
 	int	right;
 	int	mid;
@@ -50,21 +50,21 @@ int	get_med(t_list *stack_a, int left,int s_back)
 	mid = s_back / 2 + 1;
 	ar = to_ar(stack_a, s_back);
 	right = s_back - 1;
-	med = f_med(ar, left, right, mid);
+	med = f_med(ar, LEFT, right, mid);
 	return(med);
 }
 
-int	get_med_back(t_list *stack_a, int left,int s_back)
+int	get_med_back(t_list *stack_a, int s_back, int s_front)
 {
 	int	right;
 	int	mid;
 	int	*ar;
 	int	med;
 
-	mid = s_back / 2 + 1;
-	ar = to_ar_back(stack_a, s_back);
-	right = s_back - 1;
-	med = f_med(ar, left, right, mid);
+	mid = (s_back + s_front) / 2 + 1;
+	ar = to_ar_back(stack_a, s_back, s_front);
+	right = s_back + s_front - 1;
+	med = f_med(ar, LEFT, right, mid);
 	return(med);
 }
 
@@ -85,18 +85,25 @@ int	*to_ar(t_list *stack, int size)
 	return(ar);
 }
 
-int	*to_ar_back(t_list *stack, int size)
+int	*to_ar_back(t_list *stack, int s_back, int s_front)
 {
 	int	*ar;
 	int	i;
+	t_list *last;
 
-	stack = ft_lstlast(stack);
-	ar = malloc(sizeof(int) * size);
+	last = ft_lstlast(stack);
+	ar = malloc(sizeof(int) * (s_back + s_front));
 	i = 0;
-	while(stack && i <  size)
+	while(last && i <  s_back)
+	{
+		ar[i++] = last->nbr;
+		last = last->prev;
+	}
+	i = 0;
+	while(stack && i <  s_front)
 	{
 		ar[i++] = stack->nbr;
-		stack = stack->prev;
+		stack = stack->next;
 	}
 	return(ar);
 }

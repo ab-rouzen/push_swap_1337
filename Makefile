@@ -18,12 +18,12 @@ LIBS = ./src/printf/libftprintf.a
 BONU_SRC = 
 BONU_OBJ = $(BONU_SRC:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -g
 
-all : LIB $(NAME)
+all : $(LIBS) $(NAME)
 	@echo Everything is up to go!
 
-LIB :
+$(LIBS) : 
 	@make -C $(PRINTF_DIR)
 $(NAME) : $(M_OBJ) $(INCL) 
 	@echo Checking files...
@@ -44,7 +44,7 @@ clean :
 	@echo cleaning up...
 	rm $(M_OBJ)
 	rm -r $(BUILD_DIR)
-	make clean -C ./printf
+	make clean -C $(PRINTF_DIR)
 fclean : clean
 	rm $(NAME)
 

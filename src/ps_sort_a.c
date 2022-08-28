@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
+void	op_a(t_list **stack_a, t_list **stack_b, int w_len, int prev)
 {
 	int		med;
 	t_list	*node;
@@ -10,9 +10,9 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 
 	node = *stack_a;
 	a = b = 0;
-	med = get_med(*stack_a, 0, w_len);
-	//ft_printf("In op_a, w_len is %d\n", w_len);
-	if (is_sorted_a(*stack_a, w_len) && w_len > 2)
+	med = get_med(*stack_a, w_len);
+	ft_printf("In ., w_len is %d\n", w_len);
+	if (is_sorted_a(*stack_a, w_len + prev) && w_len > 2)
 	{
 		//ft_printf("is a w_len is %d\n", w_len);
 		while(a + b < w_len )
@@ -26,11 +26,11 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 				pb(stack_b, stack_a);
 				b++;
 			}
-			// else if (!check_rest_len_a(node, med, w_len - a - b))
-			// {
-			// 	//ft_printf("a is %d & b is %d and w_len si %d\n", a,b,w_len);
-			//  	break ;
-			// }
+			else if (!check_rest_len_a(node, med, w_len - a - b))
+			{
+				//ft_printf("a is %d & b is %d and w_len si %d\n", a,b,w_len);
+			 	break ;
+			}
 			else if (ra(stack_a))
 				a++;
 			node = tmp;
@@ -43,7 +43,7 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 	if (w_len == 2)
 		if(node->nbr > node->next->nbr)
 			sa(stack_a);
-	op_b(stack_b, stack_a, b);
+	op_b(stack_b, stack_a, b, prev);
 }
 
 void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len, int chunck)
@@ -56,26 +56,31 @@ void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len, int chunck)
 		return ;
 	i = 0;
 	b = 0;
-	//ft_printf("In rew_a, chunck is %d\n", chunck);
-	med_back = get_med_back(*stack_a, 0, w_len);
-	while(i < w_len & chunck != ft_lstsize(*stack_a))
+	ft_printf("In rew_a, chunck is %d\n w_len is %d\n", chunck, w_len);
+	med_back = get_med_back(*stack_a, w_len, chunck - w_len);
+	while(i < w_len && (chunck != ft_lstsize(*stack_a) || chunck != w_len))
 	{
 		rra(stack_a);
-		if ((*stack_a)->nbr <= med_back & chunck != 2)
+		if ((*stack_a)->nbr < med_back & chunck != 2)
 		{
 			pb (stack_b, stack_a);
 			b++;
 		}
 		i++;
 	}
-	if (chunck - b == 2)
-	{
-		if((*stack_a)->nbr > (*stack_a)->next->nbr)
-			sa(stack_a);
-	}
+	//ft_printf("2nd loop rew_a, a is %d \ni is %d\n", a,i);
+	// if (chunck - b == 2)
+	// {
+	// 	if((*stack_a)->nbr > (*stack_a)->next->nbr)
+	// 		sa(stack_a);
+	// }
 	//ft_printf("chunk is %d & b is %d\n", chunck, b);
-	 op_a(stack_a, stack_b, chunck - b);
-	op_b(stack_b, stack_a, b);
+	if (chunck != w_len)
+		op_a(stack_a, stack_b, i - b + chunck, b);
+	else
+		op_a(stack_a, stack_b, chunck, b);
+
+	//op_b(stack_b, stack_a, b);
 }
 
 int	is_sorted_a(t_list *stack_a, int size)

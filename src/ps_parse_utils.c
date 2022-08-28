@@ -43,9 +43,13 @@ void	check_dupl(t_list *stack_a)
 			if (step_x->nbr == step_y->nbr && step_x != step_y)
 				err_exit(8);
 			step_y = step_y->next;
+			if (step_y == stack_a)
+				break ;
 		}
 		step_x = step_x->next;
 		step_y = stack_a;
+		if (step_x == stack_a)
+			break ;
 	}
 }
 

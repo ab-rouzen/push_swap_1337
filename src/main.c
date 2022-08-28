@@ -10,6 +10,7 @@ int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
+	t_list	*node;
 	char 	***args;
 
 	if (argc == 1)
@@ -19,13 +20,16 @@ int	main(int argc, char **argv)
 	check_int(args);
 	check_dupl(stack_a);
 	stack_b = NULL;
-	op_a(&stack_a, &stack_b, ft_lstsize(stack_a));
-	stack_a = ft_lstlast(stack_a);
-	/*while (stack_a)
-	{
-		ft_printf("%d\n", stack_a->nbr);
-		stack_a = stack_a->prev;
-	}
-	ft_printf("%s\n", stack_a);*/
+	op_a(&stack_a, &stack_b, ft_lstsize(stack_a), 0);
+	node = ft_lstlast(stack_a);
+	//node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("%d\n", node->nbr);
+	// 	node = node->prev;
+	// 	if (node == ft_lstlast(stack_a))
+	// 		break ;	
+	// }
+	//ft_printf("%d\n", node->nbr);
 	return (0);
 }
