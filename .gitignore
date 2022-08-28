@@ -1,6 +1,6 @@
-./build/*
-./src/printf/*.o
-./src/printf/libftprintf.a
-./push_swap_visualizer
-.vscodegit 
+build
+src/printf/*.o
+src/printf/libftprintf.a
+push_swap_visualizer
+.vscode
 push_swap
