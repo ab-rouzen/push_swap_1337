@@ -10,8 +10,8 @@ SRC_DIR_B = ./src_B/
 BUILD_DIR = ./build/
 M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c \
 			median_utils.c ps_parse_utils_atoi.c ps_parse_utils_split.c\
-			ps_llist_utils.c ps_libft_utils.c ./ps_sort_a.c ps_sort_b.c \
-			ps_parse_utils.c
+			ps_list_utils.c ps_libft_utils.c ps_sort_a.c ps_sort_b.c \
+			ps_parse_utils.c median_utils_back.c ps_list_utils_2.c
 M_OBJ_NAME = $(M_SRC_NAME:.c=.o)
 M_OBJ = $(addprefix $(BUILD_DIR),$(M_OBJ_NAME))
 LIBS = ./src/printf/libftprintf.a

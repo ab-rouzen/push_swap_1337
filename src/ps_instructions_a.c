@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_instructions_a.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/28 17:56:52 by arouzen           #+#    #+#             */
+/*   Updated: 2022/08/28 18:06:08 by arouzen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	rra(t_list **stack_a)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (ft_lstsize(*stack_a) > 1)
 	{
@@ -30,7 +42,7 @@ int	ra(t_list **stack_a)
 
 void	sa(t_list **stack_a)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (ft_lstsize(*stack_a) > 1)
 	{
@@ -46,14 +58,14 @@ void	sa(t_list **stack_a)
 
 void	pa(t_list **stack_a, t_list **stack_b)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (*stack_b)
 	{
 		temp = (*stack_b)->next;
 		ft_lstadd_front(stack_a, *stack_b);
 		*stack_b = temp;
-		if(*stack_b)
+		if (*stack_b)
 			(*stack_b)->prev = NULL;
 		ft_printf("pa\n");
 	}

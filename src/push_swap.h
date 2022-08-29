@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/28 17:57:40 by arouzen           #+#    #+#             */
+/*   Updated: 2022/08/28 18:05:35 by arouzen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 #include <stdlib.h>
@@ -56,5 +68,7 @@ int		check_rest_len_a(t_list *stack_a, int med, int w_len);
 int		check_rest_len_b(t_list *stack_b, int med, int w_len);
 int		get_med_back(t_list *stack_a, int left,int s_back);
 int		*to_ar_back(t_list *stack, int size);
+void	hurry_chunck(t_list **stack_a, t_list **stack_b, int w_len);
+int		f_med(int *ar, int left, int right, int mid);
 
 #endif

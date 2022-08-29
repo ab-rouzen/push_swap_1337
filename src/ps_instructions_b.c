@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_instructions_b.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/28 17:56:56 by arouzen           #+#    #+#             */
+/*   Updated: 2022/08/28 17:56:57 by arouzen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	sb(t_list **stack_b)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (ft_lstsize(*stack_b) > 1)
 	{
@@ -16,7 +28,7 @@ void	sb(t_list **stack_b)
 	}
 }
 
-int 	rb(t_list **stack_b)
+int	rb(t_list **stack_b)
 {
 	t_list	*temp;
 
@@ -40,7 +52,7 @@ void	rr(t_list **stack_a, t_list **stack_b)
 
 void	rrb(t_list **stack_b)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (ft_lstsize(*stack_b) > 1)
 	{
@@ -53,7 +65,7 @@ void	rrb(t_list **stack_b)
 
 void	pb(t_list **stack_b, t_list **stack_a)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (*stack_a)
 	{

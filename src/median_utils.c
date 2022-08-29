@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   median_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/28 17:56:48 by arouzen           #+#    #+#             */
+/*   Updated: 2022/08/28 18:48:22 by arouzen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int	part_ar(int *ar,int left, int right, int idx)
+int	part_ar(int *ar, int left, int right, int idx)
 {
 	int	i;
 	int	tmp;
@@ -25,7 +37,7 @@ int	part_ar(int *ar,int left, int right, int idx)
 	tmp = ar[pos];
 	ar[pos] = ar[right];
 	ar[right] = tmp;
-	return(pos);
+	return (pos);
 }
 
 int	f_med(int *ar, int left, int right, int mid)
@@ -34,13 +46,13 @@ int	f_med(int *ar, int left, int right, int mid)
 
 	kth = part_ar(ar, left, right, left);
 	if (kth + 1 < mid)
-		return(f_med(ar, kth + 1, right, mid));
+		return (f_med(ar, kth + 1, right, mid));
 	else if (kth + 1 > mid)
 		return (f_med(ar, left, kth - 1, mid));
-	return(ar[kth]);
+	return (ar[kth]);
 }
 
-int	get_med(t_list *stack_a, int left,int s_back)
+int	get_med(t_list *stack_a, int left, int s_back)
 {
 	int	right;
 	int	mid;
@@ -51,21 +63,7 @@ int	get_med(t_list *stack_a, int left,int s_back)
 	ar = to_ar(stack_a, s_back);
 	right = s_back - 1;
 	med = f_med(ar, left, right, mid);
-	return(med);
-}
-
-int	get_med_back(t_list *stack_a, int left,int s_back)
-{
-	int	right;
-	int	mid;
-	int	*ar;
-	int	med;
-
-	mid = s_back / 2 + 1;
-	ar = to_ar_back(stack_a, s_back);
-	right = s_back - 1;
-	med = f_med(ar, left, right, mid);
-	return(med);
+	return (med);
 }
 
 int	*to_ar(t_list *stack, int size)
@@ -77,26 +75,10 @@ int	*to_ar(t_list *stack, int size)
 	s_stack = ft_lstsize(stack);
 	ar = malloc(sizeof(int) * size);
 	i = 0;
-	while(stack && i <  size)
+	while (stack && i < size)
 	{
 		ar[i++] = stack->nbr;
 		stack = stack->next;
 	}
-	return(ar);
-}
-
-int	*to_ar_back(t_list *stack, int size)
-{
-	int	*ar;
-	int	i;
-
-	stack = ft_lstlast(stack);
-	ar = malloc(sizeof(int) * size);
-	i = 0;
-	while(stack && i <  size)
-	{
-		ar[i++] = stack->nbr;
-		stack = stack->prev;
-	}
-	return(ar);
+	return (ar);
 }
