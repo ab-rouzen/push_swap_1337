@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 17:57:24 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 10:19:54 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/29 19:22:52 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,92 +18,117 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 	t_list	*node;
 	int		a;
 	int		b;
-	t_list	*tmp;
 
 	node = *stack_a;
-	a = b = 0;
+	a = 0;
+	b = 0;
 	med = get_med(*stack_a, 0, w_len);
-	if (is_sorted_a(*stack_a, w_len) && w_len > 2)
+	//ft_printf("in op a, w_len is: %d\n", w_len);
+	while (a + b < w_len && w_len > 2 && check_stack(*stack_a, &a, b))
 	{
-		while (a + b < w_len)
+		if (node->nbr < med)
 		{
-			tmp = node->next;
-			if (node->nbr < med)
-			{
-				pb(stack_b, stack_a);
-				b++;
-			}
-			else if (ra(stack_a))
-				a++;
-			node = tmp;
+			pb(stack_b, stack_a);
+			b++;
 		}
-		if (is_sorted_a(*stack_a, ft_lstsize(*stack_a)))
-			rewind_ra(stack_a, stack_b, a, w_len - b);
+		else if (ra(stack_a))
+			a++;
+		node = *stack_a;
 	}
-	node = *stack_a;
-	if (w_len == 2)
-		if (node->nbr > node->next->nbr)
-			sa(stack_a);
+	sort_head(stack_a, w_len);
+	rewind_ra(stack_a, stack_b, a);
 	op_b(stack_b, stack_a, b);
 }
 
-void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len, int chunck)
+int		check_stack(t_list *stack, int *ra, int pb)
+{
+	int	size;
+
+	size = ft_lstsize(stack);
+	// if (size == 3)
+	// {
+	// 	*ra = 0;
+	// 	return (0);
+	// }
+	if ((!is_sorted_a(stack, size) && !pb) || (size == 3 && !pb))
+	{
+		*ra = 0;
+		return (0);
+	}
+	return (1);
+}
+
+void	sort_head(t_list **stack_a, int w_len)
+{
+	t_list	*node;
+
+	node = *stack_a;
+	if (ft_lstsize(node) == 3)
+	{
+		if (node->nbr == get_max(*stack_a))
+		{
+			ra(stack_a);
+			if ((*stack_a)->nbr > (*stack_a)->next->nbr)
+				sa(stack_a);
+		}
+		else if (node->next->nbr == get_max(*stack_a))
+		{
+			rra(stack_a);
+			if ((*stack_a)->nbr > (*stack_a)->next->nbr)
+				sa(stack_a);
+		}
+		else if (node->nbr > node->next->nbr)
+			sa(stack_a);
+	}
+	else if (w_len == 2)
+		if (node->nbr > node->next->nbr)
+			sa(stack_a);
+}
+
+void	rewind_ra(t_list **stack_a, t_list **stack_b, int w_len)
 {
 	int	i;
 	int	med_back;
 	int	b;
 
-	if (!chunck)
+	if (!w_len)
 		return ;
 	i = 0;
 	b = 0;
 	med_back = get_med_back(*stack_a, 0, w_len);
-	while (i < w_len & chunck != ft_lstsize(*stack_a))
+	while (i < w_len && w_len != ft_lstsize(*stack_a))
 	{
 		rra(stack_a);
-		if ((*stack_a)->nbr <= med_back & chunck != 2)
+		if ((*stack_a)->nbr <= med_back & w_len != 2)
 		{
 			pb(stack_b, stack_a);
 			b++;
 		}
 		i++;
 	}
-	op_a(stack_a, stack_b, chunck - b);
+	op_a(stack_a, stack_b, w_len - b);
 	op_b(stack_b, stack_a, b);
 }
 
 int	is_sorted_a(t_list *stack_a, int size)
 {
-	int	tmp;
 	int	i;
 
 	i = 0;
-	if (stack_a)
-		tmp = stack_a->nbr;
-	while (i < size && stack_a)
+	//ft_printf("size is %d and i is %d\n", size, i);
+	// if (ft_lstsize(stack_a) == size && size == 3)
+	// 	return (0);
+	// if (ft_lstsize(stack_a) <= 2)
+	// 	return (1);
+	while (i < size && stack_a && stack_a->next)
 	{
-		if (stack_a->nbr <= tmp)
-			return (1);
-		tmp = stack_a->nbr;
-		stack_a = stack_a->next;
-		i++;
-	}
-	return (0);
-}
-
-int	check_rest_len_a(t_list *stack_a, int med, int w_len)
-{
-	int	i;
-
-	i = 0;
-	if (!stack_a)
-		return (1);
-	while (i < w_len && stack_a)
-	{
-		if (stack_a->nbr < med)
+		if (stack_a->nbr > stack_a->next->nbr)
 			return (1);
 		stack_a = stack_a->next;
 		i++;
 	}
+	// ft_printf("size is %d and i is %d\n", size, i);
+	// if (i < size - 1)
+	//  	return (1);
 	return (0);
 }

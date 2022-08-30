@@ -1,10 +1,22 @@
-#include "push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   chkr_list_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/29 21:36:20 by arouzen           #+#    #+#             */
+/*   Updated: 2022/08/29 21:36:21 by arouzen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "checker.h"
 
 t_list	*new_list(char ***args)
 {
-	int	i;
-	int	j;
-	t_list *list;
+	int		i;
+	int		j;
+	t_list	*list;
 
 	j = 0;
 	i = 0;
@@ -12,7 +24,7 @@ t_list	*new_list(char ***args)
 	while (args[i])
 	{
 		j = 0;
-		while(args[i][j])
+		while (args[i][j])
 		{
 			ft_lstadd_back(&list, ft_lstnew(ft_atoi(args[i][j++])));
 		}
@@ -21,47 +33,22 @@ t_list	*new_list(char ***args)
 	return (list);
 }
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*crawler;
-
-	crawler = lst;
-	while (crawler)
-	{
-		lst = crawler;
-		crawler = crawler->next;
-	}
-	return (lst);
-}
-
-t_list	*ft_lstblast(t_list *lst)
-{
-	t_list	*crawler;
-
-
-	crawler = lst;
-	if (!crawler)
-		return(crawler);
-	while (crawler->next)
-	{
-		lst = crawler;
-		crawler = crawler->next;
-	}
-	return (lst);
-}
-
 void	ft_lstadd_front(t_list **alst, t_list *new)
 {
 	new->next = *alst;
+	if ((*alst))
+		(*alst)->prev = new;
+	new->prev = NULL;
 	*alst = new;
 }
 
 void	ft_lstadd_back(t_list **alst, t_list *new)
 {
-	t_list *prev;
+	t_list	*prev;
 	t_list	*step;
 
-	prev = step = *alst;
+	step = *alst;
+	prev = *alst;
 	while (step)
 	{
 		prev = step;
@@ -72,6 +59,7 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 	else
 		prev->next = new;
 	new->next = NULL;
+	new->prev = prev;
 }
 
 t_list	*ft_lstnew(int nbr)
@@ -81,20 +69,8 @@ t_list	*ft_lstnew(int nbr)
 	new_node = malloc(sizeof(t_list));
 	if (!new_node)
 		return (NULL);
-	(*new_node).nbr = nbr;
-	(*new_node).next = NULL;
+	new_node->nbr = nbr;
+	new_node->next = NULL;
+	new_node->prev = NULL;
 	return (new_node);
-}
-
-int	ft_lstsize(t_list *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
 }

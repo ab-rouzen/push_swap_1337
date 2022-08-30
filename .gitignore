@@ -4,3 +4,6 @@ src/printf/libftprintf.a
 push_swap_visualizer
 .vscode
 push_swap
+src/gnl/*.o
+src/bonus//*.o
+tester

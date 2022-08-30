@@ -1,4 +1,4 @@
-.PHONY: all bonus re clean fclean $(NAME) $(NAME_LIBFT)
+.PHONY: all bonus re clean fclean $(NAME)
 
 NAME = push_swap
 NAME_B = checker
@@ -8,17 +8,17 @@ SRC_DIR = ./src/
 PRINTF_DIR = ./src/printf
 SRC_DIR_B = ./src_B/
 BUILD_DIR = ./build/
-M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c \
+M_SRC_NAME = main.c ps_instructions_a.c ps_instructions_b.c            \
 			median_utils.c ps_parse_utils_atoi.c ps_parse_utils_split.c\
-			ps_list_utils.c ps_libft_utils.c ps_sort_a.c ps_sort_b.c \
-			ps_parse_utils.c median_utils_back.c ps_list_utils_2.c
+			ps_list_utils.c ps_libft_utils.c ps_sort_a.c ps_sort_b.c   \
+			ps_parse_utils.c median_utils_back.c ps_list_utils_2.c     
 M_OBJ_NAME = $(M_SRC_NAME:.c=.o)
 M_OBJ = $(addprefix $(BUILD_DIR),$(M_OBJ_NAME))
-LIBS = ./src/printf/libftprintf.a
+LIBS = ./src/printf/libftprintf.a;:
 BONU_SRC = 
 BONU_OBJ = $(BONU_SRC:.c=.o)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 all : LIB $(NAME)
 	@echo Everything is up to go!
@@ -42,10 +42,10 @@ $(BUILD_DIR)%.o : $(SRC_DIR)%.c
 
 clean :
 	@echo cleaning up...
-	rm $(M_OBJ)
-	rm -r $(BUILD_DIR)
-	make clean -C ./printf
+	rm -f $(M_OBJ) 2> /dev/null
+	rm -rf $(BUILD_DIR) 2> /dev/null
+	make clean -C $(PRINTF_DIR)
 fclean : clean
-	rm $(NAME)
+	rm -f $(NAME)
 
 re : fclean all

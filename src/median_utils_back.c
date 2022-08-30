@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 18:01:16 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/28 18:48:29 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/29 18:12:56 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	get_med_back(t_list *stack_a, int left, int s_back)
 	right = s_back - 1;
 	med = f_med(ar, left, right, mid);
 	return (med);
+	free (ar);
 }
 
 int	*to_ar_back(t_list *stack, int size)
