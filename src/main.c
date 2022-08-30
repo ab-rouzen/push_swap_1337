@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 17:56:29 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 20:13:46 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/30 19:56:28 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,6 @@ int	main(int argc, char **argv)
 	check_dupl(stack_a);
 	size = ft_lstsize(stack_a);
 	stack_b = NULL;
-	//is_sorted_a(stack_a, size)
-	//	return (0);
 	op_a(&stack_a, &stack_b, size);
-	//stack_a = ft_lstlast(stack_a);
-	/*while (stack_a)
-	{
-		ft_printf("%d\n", stack_a->nbr);
-		stack_a = stack_a->prev;
-	}
-	ft_printf("%s\n", stack_a);*/
 	return (0);
 }

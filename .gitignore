@@ -7,3 +7,4 @@ push_swap
 src/gnl/*.o
 src/bonus//*.o
 tester
+checker

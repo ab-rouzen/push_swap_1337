@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 22:04:26 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 22:51:28 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/30 19:44:36 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (ns1[i] - ns2[i]);
 	return (0);
 }
-/*
-size_t	ft_strlen(const char *str)
-{
-	int		i;
-	char	*nstr;
-
-	nstr = (char *)str;
-	i = 0;
-	while (nstr[i] != '\0')
-		i++;
-	return (i);
-}*/
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

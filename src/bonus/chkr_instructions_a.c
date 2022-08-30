@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 21:32:41 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 22:56:35 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/30 19:47:27 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	rra(t_list **stack_a)
 		temp = ft_lstblast(*stack_a);
 		ft_lstadd_front(stack_a, temp->next);
 		temp->next = NULL;
-		//ft_printf("rra\n");
 	}
 }
 
@@ -35,7 +34,6 @@ int	ra(t_list **stack_a)
 		*stack_a = (*stack_a)->next;
 		(*stack_a)->prev = NULL;
 		ft_lstadd_back(stack_a, temp);
-		//ft_printf("ra\n");
 	}
 	return (1);
 }
@@ -52,7 +50,6 @@ void	sa(t_list **stack_a)
 		temp->prev = (*stack_a);
 		(*stack_a)->next = temp;
 		(*stack_a)->prev = NULL;
-		//ft_printf("sa\n");
 	}
 }
 
@@ -67,19 +64,5 @@ void	pa(t_list **stack_a, t_list **stack_b)
 		*stack_b = temp;
 		if (*stack_b)
 			(*stack_b)->prev = NULL;
-		//ft_printf("pa\n");
 	}
-}
-
-void	ss(t_list **stack_a, t_list **stack_b)
-{
-	sb(stack_b);
-	sa(stack_a);
-	//ft_printf("ss\n");
-}
-
-void	rrr(t_list **stack_a, t_list **stack_b)
-{
-	rra(stack_a);
-	rrb(stack_b);
 }

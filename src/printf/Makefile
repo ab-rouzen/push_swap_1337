@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arouzen <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 14:16:42 by arouzen           #+#    #+#              #
-#    Updated: 2021/12/29 21:04:15 by arouzen          ###   ########.fr        #
+#    Updated: 2022/08/30 19:34:46 by arouzen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,21 +26,21 @@ FLAGS = -Wall -Wextra -Werror
 
 
 all : $(NAME)
-	@echo Everything is up to go!
+	@echo $(NAME): Everything is up to go!
 
 $(NAME) : $(MAND_OBJS) $(INCL)
-	@echo Checking files...
+	@echo $(NAME): Checking files...
 	$(AR) $(ARFLAGS) $(NAME) $(MAND_OBJS)
 
 bonus : $(BONU_OBJS) $(INCL_B)
-	@echo Checking files...
+	@echo $(NAME): Checking files...
 	$(AR) $(ARFLAGS) $(NAME) $(BONU_OBJS)
 
 %.o : %.c
 	$(CC) $(FLAGS) -o $@ -c $<
 
 clean :
-	@echo cleaning up...
+	@echo $(NAME): cleaning up...
 	rm -f $(MAND_OBJS) $(BONU_OBJS)
 
 fclean : clean

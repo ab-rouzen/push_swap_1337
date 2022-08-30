@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 17:57:24 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 19:22:52 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/30 19:53:34 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 	a = 0;
 	b = 0;
 	med = get_med(*stack_a, 0, w_len);
-	//ft_printf("in op a, w_len is: %d\n", w_len);
 	while (a + b < w_len && w_len > 2 && check_stack(*stack_a, &a, b))
 	{
 		if (node->nbr < med)
@@ -40,16 +39,11 @@ void	op_a(t_list **stack_a, t_list **stack_b, int w_len)
 	op_b(stack_b, stack_a, b);
 }
 
-int		check_stack(t_list *stack, int *ra, int pb)
+int	check_stack(t_list *stack, int *ra, int pb)
 {
 	int	size;
 
 	size = ft_lstsize(stack);
-	// if (size == 3)
-	// {
-	// 	*ra = 0;
-	// 	return (0);
-	// }
 	if ((!is_sorted_a(stack, size) && !pb) || (size == 3 && !pb))
 	{
 		*ra = 0;
@@ -115,11 +109,6 @@ int	is_sorted_a(t_list *stack_a, int size)
 	int	i;
 
 	i = 0;
-	//ft_printf("size is %d and i is %d\n", size, i);
-	// if (ft_lstsize(stack_a) == size && size == 3)
-	// 	return (0);
-	// if (ft_lstsize(stack_a) <= 2)
-	// 	return (1);
 	while (i < size && stack_a && stack_a->next)
 	{
 		if (stack_a->nbr > stack_a->next->nbr)
@@ -127,8 +116,5 @@ int	is_sorted_a(t_list *stack_a, int size)
 		stack_a = stack_a->next;
 		i++;
 	}
-	// ft_printf("size is %d and i is %d\n", size, i);
-	// if (i < size - 1)
-	//  	return (1);
 	return (0);
 }

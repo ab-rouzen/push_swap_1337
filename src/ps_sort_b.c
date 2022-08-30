@@ -6,7 +6,7 @@
 /*   By: arouzen <arouzen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 17:57:28 by arouzen           #+#    #+#             */
-/*   Updated: 2022/08/29 21:19:12 by arouzen          ###   ########.fr       */
+/*   Updated: 2022/08/30 19:53:49 by arouzen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	op_b(t_list **stack_b, t_list **stack_a, int w_len)
 	b = 0;
 	med = get_med(*stack_b, 0, w_len);
 	node = *stack_b;
-	//ft_printf("in op b, w_len is: %d\n", w_len);
 	while (a + b < w_len && w_len > 2)
 	{
 		if (node->nbr >= med)
